@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded-xl border shadow-sm">
+    <h2 class="text-xl font-bold mb-4">Alıcı Qeydiyyatı</h2>
+    <form action="/customer/register" method="post" class="space-y-3">
+        <input type="text" name="full_name" placeholder="Ad Soyad" required class="w-full border p-2 rounded">
+        <input type="email" name="email" placeholder="Email (Giriş üçün)" required class="w-full border p-2 rounded">
+        <input type="text" name="phone" placeholder="Telefon Nömrəsi" required class="w-full border p-2 rounded">
+        <textarea name="address" placeholder="Dəqiq Çatdırılma Ünvanı (Yadda saxlanılacaq)" required class="w-full border p-2 rounded"></textarea>
+        <input type="password" name="password" placeholder="Şifrə" required class="w-full border p-2 rounded">
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded font-bold">Qeydiyyatdan Keç</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-6">
+    <div class="bg-white p-6 rounded-xl border flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold">{{ seller.shop_name }}</h1>
+            <p class="text-sm text-gray-500">Plan: {{ seller.fulfillment_plan }} | Ödəniş: {{ seller.billing_plan }}</p>
+        </div>
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-bold">Aktiv Mağaza ID: {{ seller.id }}</span>
+    </div>
+
+    <!-- Avtomatik Stok Xəbərdarlıqları (Əgər Stok <= 5 olubsa) -->
+    {% if alerts %}
+    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded shadow-sm">
+        <h3 class="font-bold text-amber-800 text-sm mb-2">⚠️ Avtomatik Stok Bildirişləri:</h3>
+        <ul class="space-y-1">
+            {% for a in alerts %}
+            <li class="text-xs text-amber-700">• {{ a.message }} <span class="text-gray-400">({{ a.created_at.strftime('%H:%M - %d.%m.%Y') }})</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Məhsul Əlavə Etmə Forması -->
+    <div class="bg-white p-6 rounded-xl border">
+        <h2 class="text-lg font-bold mb-4">Yeni Məhsul Əlavə Et</h2>
+        <form action="/seller/add-product" method="post" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input type="hidden" name="seller_id" value="{{ seller.id }}">
+            <input type="text" name="sku" placeholder="SKU Kodu (Özünüz Təyin Edin)" required class="border p-2 rounded uppercase font-mono">
+            <input type="text" name="title" placeholder="Məhsulun Adı" required class="border p-2 rounded">
+            <input type="number" step="0.01" name="price" placeholder="Qiymət (AZN)" required class="border p-2 rounded">
+            <input type="number" name="stock" placeholder="İlkin Stok Sayı" required class="border p-2 rounded">
+            <input type="text" name="description" placeholder="Məhsul Açıqlaması" class="border p-2 rounded md:col-span-2">
+            <button type="submit" class="md:col-span-3 bg-indigo-600 text-white py-2 rounded font-bold">Məhsulu Əlavə Et</button>
+        </form>
+    </div>
+
+    <!-- Məhsulların Siyahısı -->
+    <div class="bg-white p-6 rounded-xl border">
+        <h2 class="text-lg font-bold mb-4">Mağazanın Məhsulları</h2>
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-100 text-gray-600">
+                <tr>
+                    <th class="p-3">SKU</th>
+                    <th class="p-3">Ad</th>
+                    <th class="p-3">Qiymət</th>
+                    <th class="p-3">Qalıq Stok</th>
+                    <th class="p-3">Anbar Statusu / Yeri</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr class="border-b">
+                    <td class="p-3 font-mono font-bold">{{ p.sku }}</td>
+                    <td class="p-3">{{ p.title }}</td>
+                    <td class="p-3">{{ p.price }} AZN</td>
+                    <td class="p-3 {% if p.stock_quantity <= 5 %}text-red-600 font-bold{% endif %}">{{ p.stock_quantity }} ədəd</td>
+                    <td class="p-3 text-emerald-700 font-bold">{{ p.location }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

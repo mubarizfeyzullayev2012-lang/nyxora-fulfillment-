@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border">
+    <h2 class="text-2xl font-bold mb-2 text-indigo-950">Mağazanı Qeydiyyatdan Keçir</h2>
+    <p class="text-sm text-gray-500 mb-6">Məhsullarınızı yerləşdirin, sifariş gələndə heç bir təlaş yaşamayın – çatdırılmanı biz edirik!</p>
+
+    <form action="/seller/register" method="post" class="space-y-4">
+        <div>
+            <label class="block text-xs font-bold uppercase mb-1">Mağaza Adı</label>
+            <input type="text" name="shop_name" placeholder="Məs: Trend Butik" required class="w-full border p-2.5 rounded">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold uppercase mb-1">Email</label>
+                <input type="email" name="email" required class="w-full border p-2.5 rounded">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-1">Əlaqə Nömrəsi</label>
+                <input type="text" name="phone" required class="w-full border p-2.5 rounded">
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-bold uppercase mb-1">Şifrə</label>
+            <input type="password" name="password" required class="w-full border p-2.5 rounded">
+        </div>
+
+        <div class="border-t pt-4">
+            <label class="block text-sm font-bold text-gray-700 mb-2">1. Göndərmə Planını Seçin:</label>
+            <div class="grid grid-cols-2 gap-3">
+                <label class="border p-3 rounded cursor-pointer hover:bg-indigo-50">
+                    <input type="radio" name="fulfillment_plan" value="Biz_Gonderirik" checked>
+                    <span class="font-bold block text-sm mt-1">Biz Göndəririk (Fulfillment)</span>
+                    <span class="text-xs text-gray-500">Mallar bizim anbarda qalır, dərhal çatdırırıq. Təlaş yoxdur!</span>
+                </label>
+                <label class="border p-3 rounded cursor-pointer hover:bg-indigo-50">
+                    <input type="radio" name="fulfillment_plan" value="Ozu_Gonderir">
+                    <span class="font-bold block text-sm mt-1">Özünüz Göndərirsiniz</span>
+                    <span class="text-xs text-gray-500">Sifariş gələndə kuryeri özünüz təşkil edirsiniz.</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="border-t pt-4">
+            <label class="block text-sm font-bold text-gray-700 mb-2">2. Xidmət/Qiymət Planını Seçin:</label>
+            <div class="grid grid-cols-2 gap-3">
+                <label class="border p-3 rounded cursor-pointer hover:bg-indigo-50">
+                    <input type="radio" name="billing_plan" value="Faiz_7" checked>
+                    <span class="font-bold block text-sm mt-1">Satışdan 7% Komissiya</span>
+                    <span class="text-xs text-gray-500">Aylıq sabit xərc yoxdur, yalnız satış olanda 7% çıxılır.</span>
+                </label>
+                <label class="border p-3 rounded cursor-pointer hover:bg-indigo-50">
+                    <input type="radio" name="billing_plan" value="Ayliq_60">
+                    <span class="font-bold block text-sm mt-1">Aylıq 60 AZN Sabit</span>
+                    <span class="text-xs text-gray-500">Limitsiz satış, faizsiz birbaşa aylıq abunə haqqı.</span>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-bold hover:bg-indigo-700">Qeydiyyatı Tamamla</button>
+    </form>
+</div>
+{% endblock %}

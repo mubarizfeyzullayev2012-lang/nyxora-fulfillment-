@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center bg-white p-4 rounded-xl border">
+        <h1 class="text-2xl font-bold text-emerald-800">🏢 Anbar İdarəetmə Paneli (Lokasiya & Qəbul)</h1>
+        <span class="text-sm bg-emerald-100 text-emerald-800 px-3 py-1 rounded">Operator Rejimi</span>
+    </div>
+
+    <!-- Gələn Malları Qəbul Et və Rəf/Qutu Təyin Et -->
+    <div class="bg-white p-6 rounded-xl border">
+        <h2 class="text-lg font-bold mb-4">Anbara Gələn Malı Qəbul Et & Otaq Yeri Təyin Et</h2>
+        <form action="/warehouse/update-location" method="post" class="flex gap-4">
+            <select name="product_id" class="border p-2 rounded flex-1">
+                {% for p in products %}
+                <option value="{{ p.id }}">{{ p.sku }} - {{ p.title }} (Hazırkı Yer: {{ p.location }})</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="location" placeholder="Otaq Kodu (məs: A-1-Q2)" required class="border p-2 rounded font-mono uppercase">
+            <input type="number" name="stock_addition" placeholder="+ Əlavə Say" value="0" class="border p-2 rounded w-28">
+            <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded font-bold">Təhvil Al & Saxla</button>
+        </form>
+    </div>
+
+    <!-- Cari Sifarişlərin Göndərilməsi (Biz Çatdırırıq) -->
+    <div class="bg-white p-6 rounded-xl border">
+        <h2 class="text-lg font-bold mb-4">Kuryerə Veriləcək Sifarişlər (Fulfillment)</h2>
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-100 text-gray-600">
+                <tr>
+                    <th class="p-3">Sifariş ID</th>
+                    <th class="p-3">Müştəri və Ünvan (Avtomatik Yaddaşdan)</th>
+                    <th class="p-3">SKU & Mal</th>
+                    <th class="p-3 text-red-600">Otaqdakı Yeri</th>
+                    <th class="p-3">Kuryer Bildirişi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                <tr class="border-b">
+                    <td class="p-3 font-bold">#{{ o.id }}</td>
+                    <td class="p-3">
+                        <b>{{ o.customer.full_name }}</b> ({{ o.customer.phone }})<br>
+                        <span class="text-gray-500 text-xs">{{ o.customer.address }}</span>
+                    </td>
+                    <td class="p-3 font-mono font-bold">{{ o.product.sku }} (x{{ o.quantity }})</td>
+                    <td class="p-3 font-bold text-blue-700 bg-blue-50">{{ o.product.location }}</td>
+                    <td class="p-3 text-emerald-600 font-bold">{{ o.delivery_note }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
